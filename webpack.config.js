@@ -7,12 +7,13 @@ module.exports = {
     output: {
         path: path.join(__dirname, 'public/js'),
         publicPath: '/public/js',
-        fileName: 'bundle.js'
+        filename: 'bundle.js'
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js', 'scss'],
         alias: {
-            '@': path.join(__dirname, 'src')
+            '@': path.join(__dirname, 'src'),
+            react: require.resolve("react")
         }
     },
     module: {
@@ -27,7 +28,7 @@ module.exports = {
                     loader: 'style-loader'
                 },
                 {
-                    loader: 'cs-loader',
+                    loader: 'css-loader',
                     options: {
                         modules: true
                     }
@@ -39,9 +40,14 @@ module.exports = {
         }]
     },
     devServer: {
-        contentBase: './public',
-        writeToDisk: true,
-        historyApiFallback: true
+        devMiddleware: {
+            writeToDisk: true,
+        },
+        static: {
+            directory: './public',
+        },
+        historyApiFallback: true,
+        port: 8080
     },
     externals: {
         react: 'React',
